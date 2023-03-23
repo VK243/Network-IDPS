@@ -1,20 +1,161 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form action="">
-        <label>
-            Packets
-        </label>
-        <p id="packets">{{packet_data_df}} </p>
-        <label for=""> Prediction</label>
-        <p id="predictions">{{predictions}}</p>
-        <button id="start">Submit</button>
-    </form>
-</body>
-</html>
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+  <title>Bootstrap Example</title> 
+  <meta charset="utf-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1"> 
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>   <style> 
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */ 
+    .row.content {height: 550px} 
+     
+    /* Set gray background color and 100% height */ 
+    .sidenav { 
+      background-color: #f1f1f1;       height: 100%; 
+    } 
+         
+    /* On small screens, set height to 'auto' for the grid */ 
+    @media screen and (max-width: 767px) { 
+      .row.content {height: auto;}  
+    } 
+  </style> 
+</head> 
+<body> 
+ 
+<nav class="navbar navbar-inverse visible-xs"> 
+  <div class="container-fluid"> 
+    <div class="navbar-header"> 
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar"> 
+        <span class="icon-bar"></span> 
+        <span class="icon-bar"></span> 
+        <span class="icon-bar"></span>                         
+      </button> 
+      <a class="navbar-brand" href="#">Logo</a> 
+    </div> 
+    <div class="collapse navbar-collapse" id="myNavbar"> 
+      <ul class="nav navbar-nav"> 
+        <li class="active"><a href="#">Dashboard</a></li> 
+        <li><a href="#">Age</a></li> 
+        <li><a href="#">Gender</a></li> 
+        <li><a href="#">Geo</a></li> 
+      </ul> 
+    </div> 
+  </div> 
+</nav> 
+ 
+<div class="container-fluid"> 
+  <div class="row content"> 
+    <div class="col-sm-3 sidenav hidden-xs"> 
+      <h2>Logo</h2> 
+      <ul class="nav nav-pills nav-stacked"> 
+        <li class="active"><a href="#section1">Dashboard</a></li> 
+        <li><a href="#section2">Age</a></li> 
+        <li><a href="#section3">Gender</a></li> 
+        <li><a href="#section3">Geo</a></li>       </ul><br> 
+    </div> 
+    <br> 
+     
+    <div class="col-sm-9"> 
+      <div class="well"> 
+        <h4>Dashboard</h4> 
+        <p>Some text..</p> 
+      </div> 
+   
+        <div class="col-sm-3"> 
+          <div class="well" style="height: 800px; width: 800px;">
+            <h4>Pages</h4> 
+            <!-- Add canvas element to HTML -->
+            <canvas id="myChart" width ="1000" height="400"></canvas>
+        
+            <!-- Add Start and Stop buttons to HTML -->
+            <button id="start">Start</button>
+            <button id="stop">Stop</button>
+        
+            <!-- Add script to update the chart -->
+            <script>
+              // Define the chart
+              var ctx = document.getElementById('myChart').getContext('2d');
+              var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                  labels: [], // Array of labels for the x-axis
+                  datasets: [{
+                    label: 'Real-time Data', // Name of the dataset
+                    data: [], // Array of data points for the y-axis
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)', // Color of the fill area
+                    borderColor: 'rgba(255, 99, 132, 1)', // Color of the line
+                    borderWidth: 1 // Width of the line
+                  }]
+                },
+                options: {
+                  responsive: true,
+                  scales: {
+                    xAxes: [{
+                      ticks: {
+                        display: true,
+                        reverse: true // Reverse the x-axis
+                      }
+                    }],
+                    yAxes: [{
+                      display: false // Hide y-axis
+                    }]
+                  }
+                }
+              });
+        
+              // Define variables for interval function and button event listeners
+              var interval;
+              var startButton = document.getElementById("start");
+              var stopButton = document.getElementById("stop");
+        
+              // Start updating the chart when Start button is pressed
+              startButton.addEventListener("click", function() {
+                // Clear any existing interval function
+                clearInterval(interval);
+        
+                // Start a new interval function to update the chart every second
+                interval = setInterval(function() {
+                  // Replace these lines with code to retrieve real-time data
+                  var label = new Date().toLocaleTimeString();
+                  var value = Math.floor(Math.random() * 100);
+        
+                  // Add the data point to the chart
+                  myChart.data.labels.push(label);
+                  myChart.data.datasets[0].data.push(value);
+        
+                  // Remove oldest data point if the chart has more than 10 data points
+                  if (myChart.data.labels.length > 10) {
+                    myChart.data.labels.shift();
+                    myChart.data.datasets[0].data.shift();
+                  }
+        
+                  // Update the chart
+                  myChart.update();
+                }, 1000);
+              });
+        
+              // Stop updating the chart when Stop button is pressed
+              stopButton.addEventListener("click", function() {
+                clearInterval(interval);
+              });
+            </script>
+        
+            <style>
+              #start{
+                background-color: blue;
+                color:white;
+
+              }
+              </style>
+          </div>
+        </div>
+        </div>
+       </div> 
+    </div> 
+  </div> 
+</div> 
+ 
+</body> 
+</html> 
