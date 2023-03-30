@@ -39,7 +39,12 @@ def packet_capture(packet_count):
         packet_features['Fwd Packet Length Max'] = max(packet[IP].len for packet in packets if packet[IP].src == source_ip)
         packet_features['Fwd Packet Length Mean'] = pd.Series([packet[IP].len for packet in packets if packet[IP].src == source_ip]).mean()
         packet_features['Fwd Packet Length Std'] = pd.Series([packet[IP].len for packet in packets if packet[IP].src == source_ip]).std()
-        packet_features['Bwd Packet Length Min'] = min(packet[IP].len for packet in packets if packet.haslayer(IP) and packet[IP].src == dest_ip)
+        packet_lengths = [packet[IP].len for packet in packets if packet.haslayer(IP) and packet[IP].src == dest_ip]
+        if packet_lengths:
+            packet_features['Bwd Packet Length Min'] = min(packet_lengths)
+        else:
+            packet_features['Bwd Packet Length Min'] = 0
+
         packet_features['Bwd Packet Length Max'] = max(packet[IP].len for packet in packets if packet[IP].src == dest_ip)
         packet_features['Bwd Packet Length Mean'] = pd.Series([packet[IP].len for packet in packets if packet[IP].src == dest_ip]).mean()
         packet_features['Bwd Packet Length Std'] = pd.Series([packet[IP].len for packet in packets if packet[IP].src == dest_ip]).std()

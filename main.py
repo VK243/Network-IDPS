@@ -30,6 +30,7 @@ def model(df):
         prediction = model.predict(np.array([preprocessed_packet]))
         # Return the predicted class
         return np.argmax(prediction)
+    
     predict(df)
  
 
@@ -50,7 +51,7 @@ data = df.drop(['Source IP', 'Destination IP'], axis=1)
 
 pre = model(data.iloc[1])
 st.write(pre)
-
+data.to_csv("data.csv")
 st.write((data.dtypes))
 st.write(data.shape)
 
