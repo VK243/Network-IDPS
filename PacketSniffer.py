@@ -2,7 +2,6 @@ from scapy.all import *
 import pandas as pd
 import numpy as np
 from scapy.layers.inet import IP, TCP
-import streamlit as st 
 
 # create a function to capture packets and extract features
 def packet_capture(packet_count):
@@ -106,8 +105,3 @@ def packet_capture(packet_count):
     # return the list of features
     return features
 
-num = st.number_input("Enter number of Packets:")
-df = packet_capture(num)
-st.write(df)
-df = df.drop(['Source IP', 'Destination IP'], axis=1)
-df.to_csv('data.csv')
