@@ -3,6 +3,8 @@ import pandas  as pd
 from app import *
 from PacketSniffer import *
 
+st.set_page_config(layout='wide')
+
 st.title('Network Packet Analyzer')
 n = st.number_input("Enter No of Packet:")
 
